@@ -1,0 +1,13 @@
+1.Motivation
+Suppose to do cppcheck for C++ source code file.
+But there's no official visual studio code extenstion for cppcheck.
+And I found there's only one available extension for this, which integrate other two lints for c++.
+While it crashes on my visual studio code.
+Since it still depends on the executable file of cppcheck after the tool installation. 
+I guess the only thing I need to to is launch cppcheck instance when I try to do cppcheck.
+And render the result in a human readable way on vscode.
+
+2. preparations
+1)cppcheck can ouput the report file with xml file.
+2)and it's easy to parse the xml file to get the locations of suspicious code.
+think about how to show the result on vscode next

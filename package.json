@@ -1,7 +1,7 @@
 {
-	"name": "heyworldid",
-	"displayName": "heyworld",
-	"description": "just test heyworld",
+	"name": "cppcheck_lint",
+	"displayName": "cppcheck lint",
+	"description": "simple cppcheck extension",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.33.0"
@@ -10,14 +10,14 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.helloWorld"
+		"onCommand:extension.cppcheck_lint"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.helloWorld",
-				"title": "Hello World"
+				"command": "extension.cppcheck_lint",
+				"title": "simple cppcheck"
 			}
 		]
 	},

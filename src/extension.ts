@@ -25,11 +25,17 @@ export function activate(context: vscode.ExtensionContext) {
 	        let oc = vscode.window.createOutputChannel("CppcheckOutput");
 	        oc.appendLine("\nCurrent File's cppcheck report is:");
 
-	        let testarg: string [] = new Array("cppcheck","--enable=all");
+	//         let testarg: string [] = new Array("cppcheck","--enable=all");
+			let testarg: string [] = new Array("echo");
 	        
 	        let curdoc = vscode.window.activeTextEditor!.document;
 	        testarg.push(curdoc.fileName);
 	        let result = runCmd(testarg, "");
+			//TODO: check whether cppcheck has been installed on this machine
+
+			//TODO: check whether this active document is cpp source file
+
+			//
 	        oc.append("ls result is:" + result.stdout+"\n");
 	        oc.append("ls result stderror:\n" + result.stderr);
 

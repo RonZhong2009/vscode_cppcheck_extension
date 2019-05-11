@@ -19,26 +19,30 @@ export function activate(context: vscode.ExtensionContext) {
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
 		console.log('Congratulations, your extension "cppcheck_lint" is now active!');
-
+		let oc = vscode.window.createOutputChannel("CppcheckOutput");
     let cmddisposable = vscode.commands.registerCommand('extension.cppcheck_lint', () => {
 	        // The code you place here will be executed every time your command is executed
-	        let oc = vscode.window.createOutputChannel("CppcheckOutput");
+	        
+			oc.clear();
 	        oc.appendLine("\nCurrent File's cppcheck report is:");
 
-	//         let testarg: string [] = new Array("cppcheck","--enable=all");
-			let testarg: string [] = new Array("echo");
+	        let testarg: string [] = new Array("cppcheck","--enable=all");
+			// let testarg: string [] = new Array("echo");
 	        
 	        let curdoc = vscode.window.activeTextEditor!.document;
 	        testarg.push(curdoc.fileName);
-	        let result = runCmd(testarg, "");
+	        let result = runCmd(testarg, "C:\\");
+			if(result.error != null){
+				 vscode.window.showErrorMessage('cppcheck run failed :!' +  result.error);
+			}
 			//TODO: check whether cppcheck has been installed on this machine
 
 			//TODO: check whether this active document is cpp source file
 
 			//
-	        oc.append("ls result is:" + result.stdout+"\n");
-	        oc.append("ls result stderror:\n" + result.stderr);
-
+	        oc.append("cppcheck result is:" + result.stdout+"\n");
+	        oc.append("cppcheck result stderror:\n" + result.stderr);
+			
 			// Display a message box to the user
 			vscode.window.showInformationMessage('cppcheck started!');
 	});

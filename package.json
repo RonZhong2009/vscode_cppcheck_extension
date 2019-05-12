@@ -37,6 +37,8 @@
 	},
 	"dependencies": {
 		"@types/cross-spawn": "^6.0.0",
-		"cross-spawn": "^6.0.5"
+		"@types/xml2js": "^0.4.4",
+		"cross-spawn": "^6.0.5",
+		"xml2js": "^0.4.19"
 	}
 }

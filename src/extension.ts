@@ -3,6 +3,7 @@
 import * as vscode from 'vscode';
 import * as cross_spawn from 'cross-spawn';
 import * as child_process from 'child_process';
+import * as parseString from 'xml2js';
 
 export function runCmd(params: string[], workspaceDir: string): child_process.SpawnSyncReturns<Buffer> {
 	    let cmd = params.shift() || "echo";
@@ -26,23 +27,45 @@ export function activate(context: vscode.ExtensionContext) {
 			oc.clear();
 	        oc.appendLine("\nCurrent File's cppcheck report is:");
 
-	        let testarg: string [] = new Array("cppcheck","--enable=all");
-			// let testarg: string [] = new Array("echo");
-	        
 	        let curdoc = vscode.window.activeTextEditor!.document;
-	        testarg.push(curdoc.fileName);
-	        let result = runCmd(testarg, "C:\\");
-			if(result.error != null){
-				 vscode.window.showErrorMessage('cppcheck run failed :!' +  result.error);
+
+	//         let testarg: string [] = new Array("cppcheck","--enable=all");
+	// 		// let testarg: string [] = new Array("echo");
+	//         
+	//         let curdoc = vscode.window.activeTextEditor!.document;
+	//         testarg.push(curdoc.fileName);
+	//         let result = runCmd(testarg, "C:\\");
+	// 		if(result.error != null){
+	// 			 vscode.window.showErrorMessage('cppcheck run failed :!' +  result.error);
+	// 		}
+	// 		//TODO: check whether cppcheck has been installed on this machine
+
+	// 		//TODO: check whether this active document is cpp source file
+
+	// 		//
+	//         oc.append("cppcheck result is:" + result.stdout+"\n");
+	//         oc.append("cppcheck result stderror:\n" + result.stderr);
+
+			//TODO: 
+			let cppexmlcmd: string [] = new Array("cppcheck","--enable=all", "--xml");
+			cppexmlcmd.push(curdoc.fileName);
+	        let resultxml = runCmd(cppexmlcmd, "C:\\");
+			if(resultxml.error != null){
+				 vscode.window.showErrorMessage('cppcheck run failed :!' +  resultxml.error);
 			}
-			//TODO: check whether cppcheck has been installed on this machine
+			var parseString = require('xml2js').parseString;
+			// var parseString = require('xml2js').parseString;
+			parseString(resultxml.stderr,  (err:any, result:any) => {
+				console.dir(JSON.stringify(result));
+				console.log(result);
+				oc.append("json styple:"+JSON.stringify(result))
+			});
 
-			//TODO: check whether this active document is cpp source file
+	//         oc.append("cppcheck result is:" + resultxml.stdout+"\n");
+	//         oc.append("cppcheck result stderror:\n" + resultxml.stderr);
+		
 
-			//
-	        oc.append("cppcheck result is:" + result.stdout+"\n");
-	        oc.append("cppcheck result stderror:\n" + result.stderr);
-			
+
 			// Display a message box to the user
 			vscode.window.showInformationMessage('cppcheck started!');
 	});

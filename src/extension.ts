@@ -3,7 +3,10 @@
 import * as vscode from 'vscode';
 import * as cross_spawn from 'cross-spawn';
 import * as child_process from 'child_process';
-import * as parseString from 'xml2js';
+// import * as parseString from 'xml2js';
+import * as xpath from 'xpath';
+import * as xmldom from 'xmldom';
+
 
 export function runCmd(params: string[], workspaceDir: string): child_process.SpawnSyncReturns<Buffer> {
 	    let cmd = params.shift() || "echo";
@@ -21,30 +24,16 @@ export function activate(context: vscode.ExtensionContext) {
 	// This line of code will only be executed once when your extension is activated
 		console.log('Congratulations, your extension "cppcheck_lint" is now active!');
 		let oc = vscode.window.createOutputChannel("CppcheckOutput");
-    let cmddisposable = vscode.commands.registerCommand('extension.cppcheck_lint', () => {
+   		let cmddisposable = vscode.commands.registerCommand('extension.cppcheck_lint', () => {
 	        // The code you place here will be executed every time your command is executed
 	        
 			oc.clear();
 	        oc.appendLine("\nCurrent File's cppcheck report is:");
 
 	        let curdoc = vscode.window.activeTextEditor!.document;
-
-	//         let testarg: string [] = new Array("cppcheck","--enable=all");
-	// 		// let testarg: string [] = new Array("echo");
-	//         
-	//         let curdoc = vscode.window.activeTextEditor!.document;
-	//         testarg.push(curdoc.fileName);
-	//         let result = runCmd(testarg, "C:\\");
-	// 		if(result.error != null){
-	// 			 vscode.window.showErrorMessage('cppcheck run failed :!' +  result.error);
-	// 		}
 	// 		//TODO: check whether cppcheck has been installed on this machine
 
 	// 		//TODO: check whether this active document is cpp source file
-
-	// 		//
-	//         oc.append("cppcheck result is:" + result.stdout+"\n");
-	//         oc.append("cppcheck result stderror:\n" + result.stderr);
 
 			//TODO: 
 			let cppexmlcmd: string [] = new Array("cppcheck","--enable=all", "--xml");
@@ -53,19 +42,38 @@ export function activate(context: vscode.ExtensionContext) {
 			if(resultxml.error != null){
 				 vscode.window.showErrorMessage('cppcheck run failed :!' +  resultxml.error);
 			}
-			var parseString = require('xml2js').parseString;
-			// var parseString = require('xml2js').parseString;
-			parseString(resultxml.stderr,  (err:any, result:any) => {
-				console.dir(JSON.stringify(result));
-				console.log(result);
-				oc.append("json styple:"+JSON.stringify(result))
-			});
+
+			
+			let doc = new xmldom.DOMParser().parseFromString(resultxml.stderr.toString());
+	        let nodes = xpath.select("//error", doc);
+			nodes.forEach(item => {
+		        oc.appendLine(item.localName + ": " +item.attributes.getNamedItem("id").value);
+		        oc.appendLine(item.localName + ": " +item.attributes.getNamedItem("severity").value);
+		        oc.appendLine(item.localName + ": " +item.attributes.getNamedItem("msg").value);
+		        oc.appendLine(item.localName + ": " +item.attributes.getNamedItem("verbose").value);
+				let locations = xpath.select("//location", item);
+				locations.forEach(element => {
+						// oc.appendLine("element"+element);
+						 oc.appendLine(element.localName + ": " +element.attributes.getNamedItem("file").value);
+						 oc.appendLine(element.localName + ": " +element.attributes.getNamedItem("line").value);				
+					});
+			})
+
+	        console.log("Node: start\n");
+	        console.log(nodes[0].localName + ": " +nodes[0].attributes.getNamedItem("id").value);
+	        console.log(nodes[0].localName + ": " +nodes[0].attributes.getNamedItem("severity").value);
+	        console.log(nodes[0].localName + ": " +nodes[0].attributes.getNamedItem("msg").value);
+	        console.log(nodes[0].localName + ": " +nodes[0].attributes.getNamedItem("verbose").value);
+	        //detect whether the node exits or not.
+	        console.log(nodes[0].childNodes[1].localName + ": " +nodes[0].childNodes[1].attributes.getNamedItem("file").value);
+	        console.log(nodes[0].childNodes[1].localName + ": " +nodes[0].childNodes[1].attributes.getNamedItem("line").value);
+	        console.log("Node: end\n");
+	        console.log("Node: " + nodes[0].toString());
+
 
 	//         oc.append("cppcheck result is:" + resultxml.stdout+"\n");
 	//         oc.append("cppcheck result stderror:\n" + resultxml.stderr);
 		
-
-
 			// Display a message box to the user
 			vscode.window.showInformationMessage('cppcheck started!');
 	});

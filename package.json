@@ -38,7 +38,11 @@
 	"dependencies": {
 		"@types/cross-spawn": "^6.0.0",
 		"@types/xml2js": "^0.4.4",
+		"@types/xml2json": "^0.10.0",
+		"@types/xmldom": "^0.1.29",
 		"cross-spawn": "^6.0.5",
-		"xml2js": "^0.4.19"
+		"xml2js": "^0.4.19",
+		"xmldom": "^0.1.27",
+		"xpath": "0.0.27"
 	}
 }

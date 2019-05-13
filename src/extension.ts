@@ -57,23 +57,7 @@ export function activate(context: vscode.ExtensionContext) {
 						 oc.appendLine(element.localName + ": " +element.attributes.getNamedItem("file").value);
 						 oc.appendLine(element.localName + ": " +element.attributes.getNamedItem("line").value);				
 					});
-			})
-
-	        console.log("Node: start\n");
-	        console.log(nodes[0].localName + ": " +nodes[0].attributes.getNamedItem("id").value);
-	        console.log(nodes[0].localName + ": " +nodes[0].attributes.getNamedItem("severity").value);
-	        console.log(nodes[0].localName + ": " +nodes[0].attributes.getNamedItem("msg").value);
-	        console.log(nodes[0].localName + ": " +nodes[0].attributes.getNamedItem("verbose").value);
-	        //detect whether the node exits or not.
-	        console.log(nodes[0].childNodes[1].localName + ": " +nodes[0].childNodes[1].attributes.getNamedItem("file").value);
-	        console.log(nodes[0].childNodes[1].localName + ": " +nodes[0].childNodes[1].attributes.getNamedItem("line").value);
-	        console.log("Node: end\n");
-	        console.log("Node: " + nodes[0].toString());
-
-
-	//         oc.append("cppcheck result is:" + resultxml.stdout+"\n");
-	//         oc.append("cppcheck result stderror:\n" + resultxml.stderr);
-		
+			})		
 			// Display a message box to the user
 			vscode.window.showInformationMessage('cppcheck started!');
 	});

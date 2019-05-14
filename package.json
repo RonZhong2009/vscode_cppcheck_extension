@@ -19,7 +19,24 @@
 				"command": "extension.cppcheck_lint",
 				"title": "simple cppcheck"
 			}
-		]
+		],
+        "configuration": {
+            "type": "object",
+            "title": "simple cppcheck",
+            "properties": {
+                "cppcheck.isEnable": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enable or disable the cppcheck"
+				},
+				"cppcheck.checkSingleFile": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "cppcheck works on only a single file"
+				}
+			}
+
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",

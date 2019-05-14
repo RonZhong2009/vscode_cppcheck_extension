@@ -19,6 +19,12 @@ export function runCmd(params: string[], workspaceDir: string): child_process.Sp
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+	
+	//settings can be stored in ##contributes.configuration(locates in package.json)
+	let settings = vscode.workspace.getConfiguration('cppcheck');
+	if(settings.get('isEnable') === true){
+		console.log('start cppcheck with enable!');
+	}
 
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated

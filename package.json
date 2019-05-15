@@ -1,7 +1,7 @@
 {
-	"name": "cppcheck_lint",
-	"displayName": "cppcheck lint",
-	"description": "simple cppcheck extension",
+	"name": "cpptestid",
+	"displayName": "cpptest",
+	"description": "cppcheck test command",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.33.0"
@@ -10,16 +10,35 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.cppcheck_lint"
+		"onCommand:cppcheckcmd.cppcheckdir",
+		"onCommand:cppcheckcmd.cppcheck"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.cppcheck_lint",
-				"title": "simple cppcheck"
+				"command": "cppcheckcmd.cppcheck",
+				"title": "cppcheckcmd cppcheck "
+			},
+			{
+				"command": "cppcheckcmd.cppcheckdir",
+				"title": "cppcheckcmd cppcheckdir"
 			}
 		],
+		 "keybindings": [
+            {
+                "command": "cppcheckcmd.cppcheck",
+                "key": "ctrl+q",
+                "mac": "cmd+f2",
+                "when": "editorTextFocus"
+			},
+			{
+                "command": "cppcheckcmd.cppcheckdir",
+                "key": "ctrl+w",
+                "mac": "cmd+f3",
+                "when": "editorTextFocus"
+            }
+        ],
         "configuration": {
             "type": "object",
             "title": "simple cppcheck",
@@ -28,6 +47,11 @@
                     "type": "boolean",
                     "default": true,
                     "description": "Enable or disable the cppcheck"
+				},
+				"cppcheck.severity": {
+                    "type": "string",
+                    "default": "error",
+                    "description": "records equal to the severity here should be filtered out from cppcheck report"
 				},
 				"cppcheck.checkSingleFile": {
                     "type": "boolean",
@@ -46,19 +70,16 @@
 		"test": "npm run compile && node ./node_modules/vscode/bin/test"
 	},
 	"devDependencies": {
-		"typescript": "^3.3.1",
-		"vscode": "^1.1.28",
-		"tslint": "^5.12.1",
+		"@types/cross-spawn": "^6.0.0",
+		"@types/mocha": "^2.2.42",
 		"@types/node": "^10.12.21",
-		"@types/mocha": "^2.2.42"
+		"tslint": "^5.12.1",
+		"typescript": "^3.3.1",
+		"vscode": "^1.1.28"
 	},
 	"dependencies": {
-		"@types/cross-spawn": "^6.0.0",
-		"@types/xml2js": "^0.4.4",
-		"@types/xml2json": "^0.10.0",
 		"@types/xmldom": "^0.1.29",
 		"cross-spawn": "^6.0.5",
-		"xml2js": "^0.4.19",
 		"xmldom": "^0.1.27",
 		"xpath": "0.0.27"
 	}

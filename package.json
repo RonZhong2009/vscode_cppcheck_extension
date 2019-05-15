@@ -1,7 +1,8 @@
 {
-	"name": "cpptestid",
-	"displayName": "cpptest",
-	"description": "cppcheck test command",
+	"name": "cppcheckcmd",
+	"displayName": "cppcheckcmd",
+	"description": "cppcheck command",
+	"publisher": "cppcheckcmd",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.33.0"
@@ -25,41 +26,35 @@
 				"title": "cppcheckcmd cppcheckdir"
 			}
 		],
-		 "keybindings": [
-            {
-                "command": "cppcheckcmd.cppcheck",
-                "key": "ctrl+q",
-                "mac": "cmd+f2",
-                "when": "editorTextFocus"
+		"keybindings": [
+			{
+				"command": "cppcheckcmd.cppcheck",
+				"key": "ctrl+q",
+				"mac": "cmd+f2",
+				"when": "editorTextFocus"
 			},
 			{
-                "command": "cppcheckcmd.cppcheckdir",
-                "key": "ctrl+w",
-                "mac": "cmd+f3",
-                "when": "editorTextFocus"
-            }
-        ],
-        "configuration": {
-            "type": "object",
-            "title": "simple cppcheck",
-            "properties": {
-                "cppcheck.isEnable": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Enable or disable the cppcheck"
+				"command": "cppcheckcmd.cppcheckdir",
+				"key": "ctrl+w",
+				"mac": "cmd+f3",
+				"when": "editorTextFocus"
+			}
+		],
+		"configuration": {
+			"type": "object",
+			"title": "simple cppcheck",
+			"properties": {
+				"cppcheck.isEnable": {
+					"type": "boolean",
+					"default": true,
+					"description": "Enable or disable the cppcheck"
 				},
 				"cppcheck.severity": {
-                    "type": "string",
-                    "default": "error",
-                    "description": "records equal to the severity here should be filtered out from cppcheck report"
-				},
-				"cppcheck.checkSingleFile": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "cppcheck works on only a single file"
+					"type": "string",
+					"default": "error",
+					"description": "records equal to the severity here should be filtered out from cppcheck report"
 				}
 			}
-
 		}
 	},
 	"scripts": {
@@ -72,7 +67,7 @@
 	"devDependencies": {
 		"@types/cross-spawn": "^6.0.0",
 		"@types/mocha": "^2.2.42",
-		"@types/node": "^10.12.21",
+		"@types/node": "^10.14.6",
 		"tslint": "^5.12.1",
 		"typescript": "^3.3.1",
 		"vscode": "^1.1.28"
@@ -82,5 +77,6 @@
 		"cross-spawn": "^6.0.5",
 		"xmldom": "^0.1.27",
 		"xpath": "0.0.27"
-	}
+	},
+	"license": "(LGPL-2.0 or MIT)"
 }

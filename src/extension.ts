@@ -44,11 +44,15 @@ export function activate(context: vscode.ExtensionContext) {
 	//settings can be stored in ##contributes.configuration(locates in package.json)
 	// let settings = vscode.workspace.getConfiguration('cppcheck');
 	if(settings.get('isEnable') === true){
-		console.log('start cppcheck with enable!');
+		console.log('start cppcheck extension!');
+	}else{
+		console.log('disable cppcheck extension!');
+		return;
 	}
 
 	context.subscriptions.push(vscode.commands.registerCommand('cppcheckcmd.cppcheckdir', function () {
 		oc.clear();
+		oc.appendLine("cppcheck report for a folder:");
 		let cmdstring: string [] = new Array("cppcheck","--enable=all","--xml");
 		let curdoc = vscode.window.activeTextEditor!.document;
 		cmdstring.push(curdoc.fileName+"\\..");
@@ -56,13 +60,14 @@ export function activate(context: vscode.ExtensionContext) {
 		console.log("dir result is:" + result.stdout);
 		console.log("dir result error is:" + result.stderr);
 		handleoutput(result.stderr.toString());
+		oc.appendLine("cppcheck fininshed!");
 		vscode.window.showInformationMessage('cppcheck finished!');
     }));
 
 		context.subscriptions.push( vscode.commands.registerCommand('cppcheckcmd.cppcheck', () => {
 		// The code you place here will be executed every time your command is executed
 		oc.clear();
-		oc.appendLine("cppcheck report for a folder:");
+		oc.appendLine("cppcheck report for a file:");
 
 		let cmdstring: string [] = new Array("cppcheck","--enable=all","--xml");
 
@@ -77,7 +82,7 @@ export function activate(context: vscode.ExtensionContext) {
 			rangeOptions.push(new vscode.Range( record.line! - 1, 0 , record.line! - 1 , 200));
 		});
 		vscode.window.activeTextEditor!.setDecorations(decorator, rangeOptions);
-
+		oc.appendLine("cppcheck fininshed!");
 		vscode.window.showInformationMessage('cppcheck finished!');
 	}));
 
@@ -107,7 +112,7 @@ export function cppcheckCurrentFile(){
 		rangeOptions.push(new vscode.Range( record.line! - 1, 0 , record.line! - 1 , 200));
 	});
 	vscode.window.activeTextEditor!.setDecorations(decorator, rangeOptions);
-
+	oc.appendLine("cppcheck fininshed!");
 	vscode.window.showInformationMessage('cppcheck finished!');
 }
 

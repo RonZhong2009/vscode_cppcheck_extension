@@ -1,6 +1,4 @@
-# cppcheckcmd README
-
-This is the README for your extension "cppcheckext". 
+# cppcheckcmd
 
 ## Features
 

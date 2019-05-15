@@ -2,7 +2,7 @@
 	"name": "cppcheckcmd",
 	"displayName": "cppcheckcmd",
 	"description": "cppcheck command",
-	"publisher": "cppcheckcmd",
+	"publisher": "ronzhong",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.33.0"

@@ -15,8 +15,19 @@ let hightlightstyle = {
 	overviewRulerColor: 'rgba(240,98,146,0.8)',
 	overviewRulerLane: vscode.OverviewRulerLane.Right
 };
-let decorator = vscode.window.createTextEditorDecorationType(hightlightstyle);
 
+
+let decorator = vscode.window.createTextEditorDecorationType(hightlightstyle);
+let severityMap = new Map([
+						   ['error',7],
+						   ['warning',6],
+						   ['style',5],		
+						   ['performance',4],
+						   ['portability',3],
+						   ['information',2],
+						   ['debug',1],
+						   ['none',0], 
+					]);
 
  export function runCmd(params: string[]): child_process.SpawnSyncReturns<Buffer> {
 	let cmd = params.shift() || "echo";
@@ -64,31 +75,17 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.window.showInformationMessage('cppcheck finished!');
     }));
 
-		context.subscriptions.push( vscode.commands.registerCommand('cppcheckcmd.cppcheck', () => {
+	context.subscriptions.push( vscode.commands.registerCommand('cppcheckcmd.cppcheck', () => {
 		// The code you place here will be executed every time your command is executed
 		oc.clear();
-		oc.appendLine("cppcheck report for a file:");
-
-		let cmdstring: string [] = new Array("cppcheck","--enable=all","--xml");
-
-		let curdoc = vscode.window.activeTextEditor!.document;
-		cmdstring.push(curdoc.fileName);
-		let result =  runCmd(cmdstring);
-		console.log("file result is:" + result.stdout);
-		console.log("file result error is:" + result.stderr);
-		let records = handleoutput(result.stderr.toString());
-		let rangeOptions : vscode.Range[] =[];
-		records.forEach(record =>{
-			rangeOptions.push(new vscode.Range( record.line! - 1, 0 , record.line! - 1 , 200));
-		});
-		vscode.window.activeTextEditor!.setDecorations(decorator, rangeOptions);
-		oc.appendLine("cppcheck fininshed!");
-		vscode.window.showInformationMessage('cppcheck finished!');
+		oc.appendLine("perform cppcheck from cmd");
+		cppcheckCurrentFile();
 	}));
 
 		
 	vscode.workspace.onDidChangeTextDocument(function (event) {
 			if (vscode.window.activeTextEditor && event.document === vscode.window.activeTextEditor!.document) {
+				oc.appendLine("perform cppcheck from change");
 				cppcheckCurrentFile();
 			}
 		}, null, context.subscriptions);
@@ -97,7 +94,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 export function cppcheckCurrentFile(){
 	oc.clear();
-	oc.appendLine("cppcheck report for a single file:");
+	oc.appendLine("cppcheck report for a single file above severity:" + settings.get("severity"));
 
 	let cmdstring: string [] = new Array("cppcheck","--enable=all","--xml");
 
@@ -120,8 +117,14 @@ export function handleoutput(xmlreport: string) : CppcheckRecord[]{
 		let doc = new xmldom.DOMParser().parseFromString(xmlreport);
 		let nodes = xpath.select("//error", doc);
 		let records: CppcheckRecord[] = [];
+		severityMap.get("severity");
+		let criterion:string | undefined= settings.get("severity");
+		severityMap.get(criterion || '{}');
+		let criNum = severityMap.get(settings.get("severity") || '{}') as number;
+
 		nodes.forEach(item => {
-			if(settings.get("severity") === item.attributes.getNamedItem("severity").value){
+			let rel = 	severityMap.get( item.attributes.getNamedItem("severity").value) as number;
+			if(rel >= criNum) {
 				// console.log("item:"+item);
 				// oc.appendLine("id: 		 " +item.attributes.getNamedItem("id").value);
 				// oc.appendLine("severity: " +item.attributes.getNamedItem("severity").value);

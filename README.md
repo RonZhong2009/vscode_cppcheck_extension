@@ -2,11 +2,11 @@
 
 ## Features
 
-1. run cppcheck for the current cpp file in editor
-2. get the specified severity issues found by cppcheck
-3. run cppcheck for the cpp files in the fold of current file
-4. each change on current file will trigger the execution of cppcheck for the file.
-5. output cppcheck results in CppcheckReport channel of Output window
+1. Run cppcheck for the current cpp file in editor
+2. Get all the issues with higher severity than the setting
+3. Run cppcheck for the cpp files in the fold of current file
+4. Each change on current file will trigger the execution of cppcheck for the file.
+5. Output cppcheck results in CppcheckReport channel of Output window
 
 
 ## Requirements
@@ -31,8 +31,19 @@ This extension contributes the following settings:
 
 ## Release Notes
 
-first release
 ### 0.0.1
-
 Initial release of cppcheckext
 
+### 0.0.2
+Get all the issues with higher severity than the setting
+
+
+##Contact
+If you have any issues report them at [Issues](https://github.com/RonZhong2009/vscode_cppcheck_extension/issues)
+
+##License
+Copyright (C) 2019 Ron Zhong
+Licensed under the [MIT License](https://opensource.org/licenses/MIT).
+
+##Source
+[GitHub](https://github.com/RonZhong2009/vscode_cppcheck_extension "https://github.com/RonZhong2009/vscode_cppcheck_extension")

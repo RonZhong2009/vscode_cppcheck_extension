@@ -37,13 +37,12 @@ Initial release of cppcheckext
 ### 0.0.2
 Get all the issues with higher severity than the setting
 
-
-##Contact
+## Contact
 If you have any issues report them at [Issues](https://github.com/RonZhong2009/vscode_cppcheck_extension/issues)
 
-##License
+## License
 Copyright (C) 2019 Ron Zhong
 Licensed under the [MIT License](https://opensource.org/licenses/MIT).
 
-##Source
+## Source
 [GitHub](https://github.com/RonZhong2009/vscode_cppcheck_extension "https://github.com/RonZhong2009/vscode_cppcheck_extension")

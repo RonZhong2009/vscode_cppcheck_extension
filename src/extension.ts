@@ -7,6 +7,7 @@ import * as cross_spawn from 'cross-spawn';
 import * as child_process from 'child_process';
 import * as xmldom from "xmldom";
 import * as xpath from "xpath";
+const path = require('path');
 let settings = vscode.workspace.getConfiguration('cppcheck');
 let oc =  vscode.window.createOutputChannel("CppcheckReport");
 let hightlightstyle = {
@@ -66,7 +67,7 @@ export function activate(context: vscode.ExtensionContext) {
 		oc.appendLine("cppcheck report for a folder:");
 		let cmdstring: string [] = new Array("cppcheck","--enable=all","--xml");
 		let curdoc = vscode.window.activeTextEditor!.document;
-		cmdstring.push(curdoc.fileName+"\\..");
+		cmdstring.push(path.dirname(curdoc.fileName));
 		let result =  runCmd(cmdstring);
 		console.log("dir result is:" + result.stdout);
 		console.log("dir result error is:" + result.stderr);

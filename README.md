@@ -4,7 +4,7 @@
 
 1. Run cppcheck for the current cpp file in editor
 2. Get all the issues with higher severity than the setting
-3. Run cppcheck for the cpp files in the fold of current file
+3. Run cppcheck for the cpp files in the folder of current file
 4. Each change on current file will trigger the execution of cppcheck for the file.
 5. Output cppcheck results in CppcheckReport channel of Output window
 
